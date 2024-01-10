@@ -11,12 +11,12 @@ class SearchService < ApplicationService
   def call
     matched_data = @search_data.select do |data|
       data_values_string = data.values.join(' ')
-      matches_positive_query?(data_values_string) && 
+      matches_positive_query?(data, data_values_string) && 
       matches_negative_query?(data_values_string) &&
       matches_exact_query?(data_values_string)
     end
 
-    matched_data
+    matched_data.sort_by! { |hash| hash["times"]}.reverse
   end
 
   private
@@ -28,12 +28,15 @@ class SearchService < ApplicationService
     [exact_matches, positive, negative.map { |v| v.delete_prefix('-') }]
   end
 
-  def matches_positive_query?(data_values_string)
+  def matches_positive_query?(data, data_values_string)
     return true if @positive_values.blank?
 
-    @positive_values.any? do |string|
-      data_values_string.downcase.include?(string)
+    data['times'] = 0
+    @positive_values.each do |string|
+      data['times'] += 1 if data_values_string.downcase.include?(string)
     end
+
+    data['times'] != 0
   end
 
   def matches_negative_query?(data_values_string)

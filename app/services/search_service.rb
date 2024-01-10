@@ -29,6 +29,8 @@ class SearchService < ApplicationService
   end
 
   def matches_positive_query?(data_values_string)
+    return true if @positive_values.blank?
+
     @positive_values.any? do |string|
       data_values_string.downcase.include?(string)
     end
@@ -38,7 +40,9 @@ class SearchService < ApplicationService
     @negative_values.none? { |string| data_values_string.downcase.include?(string) }
   end
 
-  def matches_exact_query?(data, data_values_string)
+  def matches_exact_query?(data_values_string)
+    return true if @exact_match_values.blank?
+
     @exact_match_values.any? do |string|
       data_values_string.match?(/\b#{Regexp.escape(string)}\b/i)
     end

@@ -21,13 +21,17 @@ class SearchService < ApplicationService
 
   private
   
+  # Parses the search string to sort it into exact, positive, and negative
+  # Returns arrays of exact matches, positive matches, and negative matches without the prefix "-"
   def parse_search_string
-    exact_matches = @search_string.scan(/"([^"]+)"/).flatten
-    remaining_string = @search_string.gsub(/"([^"]+)"/, '')
-    positive, negative = remaining_string.split.partition { |v| !v.start_with?('-') }
+    exact_matches = @search_string.scan(/"([^"]+)"/).flatten        # Find all exact matches in quotes
+    remaining_string = @search_string.gsub(/"([^"]+)"/, '')         # Remove exact match queries from the search string
+    positive, negative = remaining_string.split.partition { |v| !v.start_with?('-') }     # Split the remaining string into positive and negative matches based on prefix
     [exact_matches, positive, negative.map { |v| v.delete_prefix('-') }]
   end
 
+  # Check if any of the positive match values are included in the data string
+  # Initial version of match counter to sort by relevance
   def matches_positive_query?(data, data_values_string)
     return true if @positive_values.blank?
 
@@ -39,10 +43,12 @@ class SearchService < ApplicationService
     data['times'] != 0
   end
 
+  # Checks if none of the negative match values are included in the data string
   def matches_negative_query?(data_values_string)
     @negative_values.none? { |string| data_values_string.downcase.include?(string) }
   end
 
+  # Checks if the data string has any of the exact match values
   def matches_exact_query?(data_values_string)
     return true if @exact_match_values.blank?
 

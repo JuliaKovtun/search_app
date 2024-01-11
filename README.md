@@ -11,13 +11,11 @@ It filters search data based on exact, positive, and negative match criteria pro
 - Enables negative searches with a - prefix to exclude certain words.
 - Sorts matched data based on the number of matches.
 
-<img width="801" alt="Знімок екрана 2024-01-10 о 17 02 04" src="https://github.com/JuliaKovtun/search_app/assets/26040954/cd6e5542-90d1-463f-ab4a-6a0e17f3a0ba">
+<img width="1440" alt="Знімок екрана 2024-01-11 о 16 25 47" src="https://github.com/JuliaKovtun/search_app/assets/26040954/936e0545-1072-478c-a9ef-d08ad8c8a3ae">
 
-  
-<img width="1432" alt="Знімок екрана 2024-01-10 о 17 03 35" src="https://github.com/JuliaKovtun/search_app/assets/26040954/dfe8f17c-696d-4fb8-bce4-208edc60fa88">
+<img width="1440" alt="Знімок екрана 2024-01-11 о 16 26 51" src="https://github.com/JuliaKovtun/search_app/assets/26040954/6764112e-d11b-41b5-9733-74d840a383ca">
 
-<img width="1409" alt="Знімок екрана 2024-01-10 о 17 04 39" src="https://github.com/JuliaKovtun/search_app/assets/26040954/bb221f4c-8817-42d2-a12f-3c0985bd87ef">
-
+<img width="1440" alt="Знімок екрана 2024-01-11 о 16 27 30" src="https://github.com/JuliaKovtun/search_app/assets/26040954/bf6466f2-0948-4230-a833-1cbee8d349ce">
 
 * Ruby version: 3.3.0
 
@@ -31,6 +29,7 @@ To get started with SearchApp, clone the repository and install the required gem
 git clone https://github.com/JuliaKovtun/search_app.git
 cd search-app
 bundle install
+./bin/dev
 ```
 
 ## How to run the test suite

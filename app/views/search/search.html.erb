@@ -1,26 +1,43 @@
-<%= form_tag root_path, method: :get do %>
-  <%= label_tag :search, 'Search programming language' %>
-  <%= text_field_tag :search, params[:search], style:  "width: 35%;" %>
-  <%= submit_tag 'Search' %>
-<% end %>
-<br>
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Type</th>
-      <th>Designed by</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @data.each do |data| %>
-      <tr>
-        <td><%= data['Name'] %></td>
-        <td><%= data['Type'] %></td>
-        <td><%= data['Designed by']%><td>
-      </tr>
+<div class="container mx-auto">
+  <div>
+    <%= form_with(url: root_path, method: :get, local: true) do |form| %>
+    <div class="relative">
+      <%= form.text_field :search, value: params[:search], placeholder: "Search for languages...", class: "block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" %>
+      <%= form.submit "Search", class: "text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2" %>
+    </div>
     <% end %>
-  </tbody>
-</table>
-<br>
+  </div>
+
+  <div class="relative overflow-x-auto mt-5">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+            <tr>
+                <th scope="col" class="px-6 py-3 rounded-s-lg">
+                  Title
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Type
+                </th>
+                <th scope="col" class="px-6 py-3 rounded-e-lg">
+                  Designed by
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+          <% @data.each do |data| %>
+            <tr class="bg-white">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                  <%= data['Name'] %>
+                </th>
+                <td class="px-6 py-4">
+                  <%= data['Type'] %>
+                </td>
+                <td class="px-6 py-4">
+                  <%= data['Designed by']%>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+  </div>
+</div>

@@ -10,7 +10,7 @@ RSpec.describe SearchService, type: :service do
       let(:search_string) { 'Lisp Common' }
 
       it 'finds programming language' do
-        expect(search_service[0].values).to include("Common Lisp")
+        expect(search_service[0].values).to include('Common Lisp')
       end
     end
 
@@ -25,47 +25,47 @@ RSpec.describe SearchService, type: :service do
 
   context 'negative search' do
     context 'with one negative search argument' do
-      let(:search_string) { "john -array" }
+      let(:search_string) { 'john -array' }
 
       it 'returns searched programming languages' do
-        expect(search_service.map { |hash| hash['Name'] }).to include("BASIC", "Haskell", "Lisp", "S-Lang")
+        expect(search_service.map { |hash| hash['Name'] }).to include('BASIC', 'Haskell', 'Lisp', 'S-Lang')
       end
 
       it 'does not return excluded programming languages' do
-        expect(search_service.map { |hash| hash['Name'] }).not_to include("Chapel", "Fortran", "S")
+        expect(search_service.map { |hash| hash['Name'] }).not_to include('Chapel', 'Fortran', 'S')
       end
     end
 
     context 'with multiple negative search arguments' do
-      let(:search_string) { "john -array -Thomas" }
+      let(:search_string) { 'john -array -Thomas' }
 
       it 'returns searched programming languages' do
-        expect(search_service.map { |hash| hash['Name'] }).to include("Lisp", "S-Lang")
+        expect(search_service.map { |hash| hash['Name'] }).to include('Lisp', 'S-Lang')
       end
 
       it 'does not return excluded programming languages' do
-        expect(search_service.map { |hash| hash['Name'] }).not_to include("BASIC", "Haskell", "Chapel", "Fortran", "S")
+        expect(search_service.map { |hash| hash['Name'] }).not_to include('BASIC', 'Haskell', 'Chapel', 'Fortran', 'S')
       end
     end
   end
 
   context 'exact search' do
     context 'when searched data exists' do
-      let(:search_string) { "\"Object-oriented class-based\"" }
+      let(:search_string) { '"Object-oriented class-based"' }
 
       it 'returns searched programming languages' do
         result = search_service
         expect(result.length).to eq(36)
-        expect(result.map { |hash| hash['Name'] }).to include("ActionScript", "Ada", "Blue")
+        expect(result.map { |hash| hash['Name'] }).to include('ActionScript', 'Ada', 'Blue')
       end
 
       it 'does not return programming languages without data' do
-        expect(search_service.map { |hash| hash['Name'] }).not_to include("R", "S-Lang")
+        expect(search_service.map { |hash| hash['Name'] }).not_to include('R', 'S-Lang')
       end
     end
 
     context 'when searched data does not exist' do
-      let(:search_string) { "\"exact searched string\"" }
+      let(:search_string) { '"exact searched string"' }
 
       it 'returns an empty array' do
         expect(search_service).to eq([])

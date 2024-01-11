@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SearchService < ApplicationService
-  DATA_FILE_PATH = 'data.json'.freeze
+  DATA_FILE_PATH = 'data.json'
 
   def initialize(search_string)
     @search_string = search_string.to_s.downcase
@@ -14,12 +14,12 @@ class SearchService < ApplicationService
 
     matched_data = @search_data.select do |data|
       data_values_string = data.values.join(' ')
-      matches_positive_query?(data, data_values_string) && 
-      matches_negative_query?(data_values_string) &&
-      matches_exact_query?(data_values_string)
+      matches_positive_query?(data, data_values_string) &&
+        matches_negative_query?(data_values_string) &&
+        matches_exact_query?(data_values_string)
     end
 
-    matched_data.sort_by! { |hash| hash["times"]}.reverse
+    matched_data.sort_by! { |hash| hash['times'] }.reverse
   end
 
   private
@@ -28,13 +28,16 @@ class SearchService < ApplicationService
   def load_search_data
     JSON.parse(File.read(DATA_FILE_PATH))
   end
-  
+
   # Parses the search string to sort it into exact, positive, and negative
   # Returns arrays of exact matches, positive matches, and negative matches without the prefix "-"
   def parse_search_string
     exact_matches = @search_string.scan(/"([^"]+)"/).flatten        # Find all exact matches in quotes
     remaining_string = @search_string.gsub(/"([^"]+)"/, '')         # Remove exact match queries from the search string
-    positive, negative = remaining_string.split.partition { |v| !v.start_with?('-') }     # Split the remaining string into positive and negative matches based on prefix
+    positive, negative = # Split the remaining string into positive and negative matches based on prefix
+      remaining_string.split.partition do |v|
+      !v.start_with?('-')
+    end
     [exact_matches, positive, negative.map { |v| v.delete_prefix('-') }]
   end
 

@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe SearchService, type: :service do
-  let(:search_data) { JSON.parse(File.read('data.json')) }
-  subject(:search_service) { described_class.new(search_string, search_data).call }
+  subject(:search_service) { described_class.new(search_string).call }
 
   context 'basic search' do
     context 'when language exists' do

@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
 class SearchService < ApplicationService
+  DATA_FILE_PATH = 'data.json'.freeze
 
-  def initialize(search_string, search_data)
-    @search_string = search_string.downcase
-    @search_data = search_data
+  def initialize(search_string)
+    @search_string = search_string.to_s.downcase
+    @search_data = load_search_data
     @exact_match_values, @positive_values, @negative_values = parse_search_string
   end
 
   def call
+    return @search_data if @search_string.blank?
+
     matched_data = @search_data.select do |data|
       data_values_string = data.values.join(' ')
       matches_positive_query?(data, data_values_string) && 
@@ -20,6 +23,11 @@ class SearchService < ApplicationService
   end
 
   private
+
+  # Parses JSON data from file
+  def load_search_data
+    JSON.parse(File.read(DATA_FILE_PATH))
+  end
   
   # Parses the search string to sort it into exact, positive, and negative
   # Returns arrays of exact matches, positive matches, and negative matches without the prefix "-"

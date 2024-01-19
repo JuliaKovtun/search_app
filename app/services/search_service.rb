@@ -4,7 +4,7 @@ class SearchService < ApplicationService
   DATA_FILE_PATH = 'data.json'
 
   def initialize(search_string)
-    @search_string = search_string.to_s.downcase
+    @search_string = search_string.to_s
     @search_data = load_search_data
     @exact_match_values, @positive_values, @negative_values = parse_search_string
   end
@@ -35,7 +35,7 @@ class SearchService < ApplicationService
     exact_matches = @search_string.scan(/"([^"]+)"/).flatten        # Find all exact matches in quotes
     remaining_string = @search_string.gsub(/"([^"]+)"/, '')         # Remove exact match queries from the search string
     positive, negative = # Split the remaining string into positive and negative matches based on prefix
-      remaining_string.split.partition do |v|
+      remaining_string.downcase.split.partition do |v|
       !v.start_with?('-')
     end
     [exact_matches, positive, negative.map { |v| v.delete_prefix('-') }]
